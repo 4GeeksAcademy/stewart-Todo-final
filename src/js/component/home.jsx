@@ -1,24 +1,32 @@
 import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import { useState } from "react";
 
 //create your first component
 const Home = () => {
+	const[input, setInput] = useState("") 
+	const [todos, setTodos] = useState([])
+	function addTodo(){
+		let task = {label: input, done: false}
+		setTodos([...todos, task]);
+		setInput("");
+	}
+	function deleteTodo(i){
+		let newTodos=todos.filter((todo,index)=>index !== i)
+		setTodos(newTodos)
+		console.log(todos)
+	}
 	return (
 		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			<input onChange={(e)=>setInput(e.target.value)}></input>
+			<button onClick={()=> addTodo()}>Add Todo</button>
+			<div>
+				{todos.map((todo, index) => (
+                    <div key={index}>{todo.label}
+					<button onClick={() => deleteTodo(index)}>Delete</button>
+					</div>
+					
+                ))}
+			</div>
 		</div>
 	);
 };
